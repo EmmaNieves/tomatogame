@@ -73,13 +73,14 @@ def build_level(assets):
     cursor = add_dirt_ground(platforms, cursor, 420)
     add_garden_decorations(decorations, intro_start, 420, density=80)
     add_fence_decoration(decorations, intro_start + 10, 60)
-    story_messages.append(StoryMessage(huerto_start + 40, "Aqui empezo todo, un dia cualquiera."))
+    add_checkpoint(checkpoints, intro_start + 200, "Hola! soy el osito, bienvenido a esta aventura, este es el huerto, aqui todo es tranquilo, claramente, porque eres un tomate jaja.Espero que te guste el lugar, nos vemos en el camino.")
+    story_messages.append(StoryMessage(huerto_start + 40, "Así empezó todo, en un huerto lleno de vida."))
 
     enemy1_start = cursor
     cursor = add_dirt_ground(platforms, cursor, 320)
     add_garden_decorations(decorations, enemy1_start, 320, density=90)
     add_worm(enemies, enemy1_start + 180, enemy1_start + 30, cursor - 30, assets)
-    story_messages.append(StoryMessage(enemy1_start + 20, "Nos encontramos sin buscarlo."))
+    story_messages.append(StoryMessage(enemy1_start + 20, "Encontrarte fue inesperado, pero llegaste en el momento indicado"))
 
     plat_start = cursor
     cursor = add_dirt_ground(platforms, cursor, 260)
@@ -102,7 +103,7 @@ def build_level(assets):
     add_worm(enemies, multi_start + 90, multi_start + 20, multi_start + 210, assets)
     add_slug(enemies, multi_start + 270, multi_start + 220, multi_start + 350, assets)
     add_rotten_tomato(enemies, multi_start + 400, multi_start + 360, cursor - 30, assets)
-    story_messages.append(StoryMessage(multi_start + 40, "Aprendimos a esperar el momento correcto."))
+    story_messages.append(StoryMessage(multi_start + 40, "Aprendimos a saltar, esquivar y avanzar juntos."))
 
     explore_start = cursor
     cursor = add_dirt_ground(platforms, cursor, 380)
@@ -124,8 +125,8 @@ def build_level(assets):
     final_start = cursor
     cursor = add_dirt_ground(platforms, cursor, 260)
     add_garden_decorations(decorations, final_start, 260, density=90)
-    add_checkpoint(checkpoints, final_start + 130)
-    story_messages.append(StoryMessage(final_start + 30, "El comienzo de una aventura, la nuestra."))
+    add_checkpoint(checkpoints, final_start + 130, "Ten cuidado al pasar por el huerto, hay bichos que pueden hacerte daño.")
+    story_messages.append(StoryMessage(final_start + 30, "Así empezó nuestra vida juntos"))
 
     huerto_end = cursor
 
@@ -133,7 +134,7 @@ def build_level(assets):
     # ZONA 2: CULTIVO — plantas altas, puentes, plataformas moviles
     # =====================================================
     cultivo_start = cursor
-    story_messages.append(StoryMessage(cultivo_start + 30, "El huerto se volvio mas denso aqui."))
+    story_messages.append(StoryMessage(cultivo_start + 30, "Pasamos a un cultivo, donde todo crecia mas alto que nosotros."))
 
     for i in range(4):
         enemy_type = "escarabajo" if i % 2 == 0 else "mosca_fruta"
@@ -156,7 +157,7 @@ def build_level(assets):
     add_moving_platform(platforms, bridge_start + 100, ground_y - 90, 90, axis="y", distance=55, speed=0.035)
     add_moving_platform(platforms, bridge_start + 260, ground_y - 130, 90, axis="x", distance=70, speed=0.03)
     collectibles.append(Collectible(bridge_start + 100, ground_y - 130, assets))
-    story_messages.append(StoryMessage(bridge_start + 30, "Aprendimos a movernos junto a lo que cambia."))
+    story_messages.append(StoryMessage(bridge_start + 30, "Aprendimos a movernos juntos y ser más fuerte que los cambios"))
 
     cursor = add_enemy_corridor(
         platforms, enemies, cursor,
@@ -167,7 +168,7 @@ def build_level(assets):
     add_fruit_fly(enemies, cursor - 300, cursor - 500, cursor - 100, assets)
 
     cursor = add_flat_ground(platforms, cursor, 200, ground_type="cultivo_ground")
-    add_checkpoint(checkpoints, cursor - 100)
+    add_checkpoint(checkpoints, cursor - 100, "Hola de nuevo, me alegra volver a verte, estás a punto de entrar al bosque de espinas, por momentos se hace más difícil, sé que lo lograrás.")
     cultivo_end = cursor
 
     # =====================================================
@@ -197,7 +198,7 @@ def build_level(assets):
     add_peligro_decorations(decorations, pepper_start, 320, density=100)
     add_pepper_enemy(enemies, pepper_start + 120, pepper_start + 40, pepper_start + 260, assets)
     add_pepper_enemy(enemies, pepper_start + 220, pepper_start + 160, cursor - 30, assets)
-    story_messages.append(StoryMessage(pepper_start + 30, "Cada paso pesaba mas, pero seguimos."))
+    story_messages.append(StoryMessage(pepper_start + 30, "Por momentos nos sentimos atrapados, pero seguimos adelante."))
 
     cursor = add_flat_ground(platforms, cursor, 180, ground_type="peligro_ground")
     peligro_end = cursor
@@ -206,8 +207,9 @@ def build_level(assets):
     # ENTRADA A LA CASA — transicion visual, tramo tranquilo
     # =====================================================
     casa_start = cursor
-    cursor = add_house_entrance(platforms, decorations, cursor, length=260)
-    add_checkpoint(checkpoints, casa_start + 130)
+    # ¡AQUÍ ESTÁ EL CAMBIO A 380!
+    cursor = add_house_entrance(platforms, decorations, cursor, length=380)
+    add_checkpoint(checkpoints, casa_start + 130, "¿No adoras estos momentos de calma en los que podemos solo estar en nuestro hogar? El que formamos juntos, es hermoso estar en tus brazos, tenerte cerca, y que todo lo demás desaparezca. Digo, auuuu, soy un osito. ¿Cocinamos?;)")
     story_messages.append(StoryMessage(casa_start + 20, "La puerta de la cocina nos esperaba."))
     casa_end = cursor
 
@@ -215,7 +217,7 @@ def build_level(assets):
     # ZONA 4: COCINA — el protagonista es pequeno, todo es enorme
     # =====================================================
     cocina_start = cursor
-    story_messages.append(StoryMessage(cocina_start + 30, "Todo aqui era gigante, hasta los platos."))
+    story_messages.append(StoryMessage(cocina_start + 30, "Todo aqui era gigante, hasta los platos, parece un ramen hecho por nosotros."))
 
     kitchen_intro_start = cursor
     cursor = add_kitchen_ground(platforms, cursor, 340)
@@ -247,7 +249,7 @@ def build_level(assets):
         ground_type="kitchen_floor", enemy_type="tostadora",
     )
     add_kitchen_decorations(decorations, cursor - 500, 500, density=130)
-    add_checkpoint(checkpoints, cursor - 60)
+    add_checkpoint(checkpoints, cursor - 60, "Esto se puso más difícil de lo que creí, ¿qué está pasando en esa cocina? ¿por qué tantas cosas vuelan? en fin, no sé de que hablo, soy un oso que habla, mejor vamos a la estufa.")
     cocina_end = cursor
 
     # =====================================================
@@ -285,14 +287,14 @@ def build_level(assets):
     add_fire_spot(effects, knife_start + 80, ground_y - 40)
     add_fire_spot(effects, knife_start + 220, ground_y - 40)
     add_knife(enemies, knife_start + 150, knife_start + 30, cursor - 30, assets, speed=2.4)
-    add_checkpoint(checkpoints, cursor - 80)
+    add_checkpoint(checkpoints, cursor - 80, "Ya casi llegamos al final.")
     estufa_end = cursor
 
     # =====================================================
     # ZONA 6: JEFE — EL GRAN CHEF
     # =====================================================
     jefe_start = cursor
-    story_messages.append(StoryMessage(jefe_start + 20, "El Gran Chef nos esperaba, ollas en mano."))
+    story_messages.append(StoryMessage(jefe_start + 20, "JAJAJA, eso si fue intenso, pero lo paasaste, ahora, ten cuidado, el chef está molesto porque se comieron su ramen y ahora está buscando tomates para una salsa, ¡no dejes que te atrape!"))
 
     arena_length = 520
     cursor = add_boss_arena_ground(platforms, cursor, arena_length)

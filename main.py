@@ -37,6 +37,7 @@ def main():
     font_big = pygame.font.SysFont("couriernew", 44, bold=True)
     font_small = pygame.font.SysFont("couriernew", 20)
     font_boss = pygame.font.SysFont("couriernew", 18, bold=True)
+    font_checkpoint = pygame.font.SysFont("couriernew", 14, bold=True)
 
     assets = AssetManager()
     audio = AudioManager()
@@ -79,6 +80,11 @@ def main():
                 running = False
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 running = False
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_t:
+                for checkpoint in level["checkpoints"]:
+                    if checkpoint.can_interact(player):
+                        checkpoint.show_message()
+                        audio.play_sfx(settings.SFX_FILES["checkpoint"], assets)
 
         keys = pygame.key.get_pressed()
 
@@ -141,6 +147,7 @@ def main():
 
             for checkpoint in level["checkpoints"]:
                 checkpoint.check(player)
+                checkpoint.hide_message_if_far(player)
 
             if boss is not None and not boss.defeated:
                 boss.update(player.rect)
@@ -208,6 +215,9 @@ def main():
             boss.draw(game_surface, camera)
 
         player.draw(game_surface, camera)
+
+        for checkpoint in level["checkpoints"]:
+            checkpoint.draw_message(game_surface, font_checkpoint, camera)
 
         draw_hud(game_surface, font, collected_count, len(level["collectibles"]))
         boss_in_final_area = (

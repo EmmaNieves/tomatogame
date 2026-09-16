@@ -27,8 +27,8 @@ TITLE = "Aventura de Tomate"
 # FISICA
 # ------------------------------------------------------------
 GRAVITY = 0.7
-JUMP_FORCE = -20
-MOVE_SPEED = 6
+JUMP_FORCE = -26
+MOVE_SPEED = 10
 FRICTION = 0.82
 MAX_FALL_SPEED = 16
 
@@ -122,6 +122,7 @@ SFX_FILES = {
     "saltar": "saltar.wav",
     "morir": "morir.wav",
     "recoger": "recoger.wav",
+    "checkpoint": "checkpoint.mp3",
     "final": "final.wav",
     "golpe_jefe": "golpe_jefe.wav",
 }

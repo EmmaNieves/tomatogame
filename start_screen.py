@@ -42,6 +42,7 @@ def run_start_screen(screen, clock, audio):
 
     font_title = pygame.font.SysFont("couriernew", 46, bold=True)
     font_sub = pygame.font.SysFont("couriernew", 20)
+    font_controls = pygame.font.SysFont("couriernew", 16)
 
     audio.play_music(settings.MUSIC_FILES["menu"], volume=0.4)
 
@@ -76,6 +77,21 @@ def run_start_screen(screen, clock, audio):
         if show_prompt:
             sub_surf = font_sub.render("Presiona ENTER o ESPACIO para jugar", True, (255, 255, 255))
             virtual.blit(sub_surf, sub_surf.get_rect(center=(center_x, center_y + 70)))
+
+        controls = [
+            "Controles",
+            "W / ARRIBA: saltar",
+            "A / IZQUIERDA: ir a la izquierda",
+            "D / DERECHA: ir a la derecha",
+            "S / ABAJO: agacharse",
+            "ESPACIO: saltar    T: hablar con el osito",
+        ]
+        for index, control_text in enumerate(controls):
+            control_surface = font_controls.render(control_text, True, (255, 255, 255))
+            virtual.blit(
+                control_surface,
+                control_surface.get_rect(center=(center_x, center_y + 106 + index * 20)),
+            )
 
         scaled = pygame.transform.scale(virtual, (settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT))
         screen.blit(scaled, (0, 0))

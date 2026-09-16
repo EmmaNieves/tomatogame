@@ -92,9 +92,9 @@ def add_rotten_tomato(enemies, x, patrol_min, patrol_max, assets, speed=1.6):
     enemies.append(Enemy(x, GROUND_Y - 30, 28, 30, patrol_min, patrol_max, speed, assets, "tomate_podrido"))
 
 
-def add_checkpoint(checkpoints, x):
-    """Bandera de guardado sobre el suelo."""
-    checkpoint = Checkpoint(x, GROUND_Y - 70)
+def add_checkpoint(checkpoints, x, message="Checkpoint alcanzado."):
+    """Osito de guardado apoyado sobre el suelo."""
+    checkpoint = Checkpoint(x, GROUND_Y - 32, message=message)
     checkpoints.append(checkpoint)
     return checkpoint
 
@@ -243,16 +243,25 @@ def add_danger_gap(platforms, start_x, gap_width, ground_after=260):
 # ENTRADA A LA CASA (transicion)
 # =========================================================
 
-def add_house_entrance(platforms, decorations, start_x, length=260):
-    """Porche corto y tranquilo antes de entrar a la cocina."""
+def add_house_entrance(platforms, decorations, start_x, length=380):
+    """Porche tranquilo antes de entrar a la cocina, ajustado al nuevo tamaño."""
     cursor = add_flat_ground(platforms, start_x, length)
-    decorations.append(Decoration(start_x + 40, GROUND_Y, "casa", seed=1))
-    decorations.append(Decoration(start_x + 40, GROUND_Y, "porche", seed=2))
-    decorations.append(Decoration(start_x + 150, GROUND_Y, "maceta", seed=3))
-    decorations.append(Decoration(start_x + 200, GROUND_Y, "maceta", seed=4))
-    decorations.append(Decoration(start_x + length - 40, GROUND_Y, "puerta", seed=5))
+    
+    # Asumiendo que Decoration está importado y usa la constante GROUND_Y de settings
+    from settings import GROUND_Y
+    
+    # Centramos más la casa y el porche
+    decorations.append(Decoration(start_x + 80, GROUND_Y, "casa", seed=1))
+    decorations.append(Decoration(start_x + 80, GROUND_Y, "porche", seed=2))
+    
+    # Repartimos las macetas en el espacio extra
+    decorations.append(Decoration(start_x + 240, GROUND_Y, "maceta", seed=3))
+    decorations.append(Decoration(start_x + 310, GROUND_Y, "maceta", seed=4))
+    
+    # Movemos la puerta un poco más al final del nuevo tramo
+    decorations.append(Decoration(start_x + length - 60, GROUND_Y, "puerta", seed=5))
+    
     return cursor
-
 
 # =========================================================
 # ZONA 4: COCINA
