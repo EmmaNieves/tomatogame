@@ -46,33 +46,34 @@ class Checkpoint:
 
         box_width = 260
         text_width = box_width - 20
-        words = self.message.split()
         lines = []
-        current_line = ""
+        for paragraph in self.message.splitlines() or [""]:
+            words = paragraph.split()
+            current_line = ""
+            for word in words:
+                if font.size(word)[0] > text_width:
+                    if current_line:
+                        lines.append(current_line)
+                        current_line = ""
+                    remaining = word
+                    while remaining:
+                        split_at = len(remaining)
+                        while split_at > 1 and font.size(remaining[:split_at])[0] > text_width:
+                            split_at -= 1
+                        lines.append(remaining[:split_at])
+                        remaining = remaining[split_at:]
+                    continue
 
-        for word in words:
-            if font.size(word)[0] > text_width:
-                if current_line:
+                candidate = f"{current_line} {word}".strip()
+                if current_line and font.size(candidate)[0] > text_width:
                     lines.append(current_line)
-                    current_line = ""
-                remaining = word
-                while remaining:
-                    split_at = len(remaining)
-                    while split_at > 1 and font.size(remaining[:split_at])[0] > text_width:
-                        split_at -= 1
-                    lines.append(remaining[:split_at])
-                    remaining = remaining[split_at:]
-                continue
-
-            candidate = f"{current_line} {word}".strip()
-            if current_line and font.size(candidate)[0] > text_width:
+                    current_line = word
+                else:
+                    current_line = candidate
+            if current_line:
                 lines.append(current_line)
-                current_line = word
-            else:
-                current_line = candidate
-
-        if current_line:
-            lines.append(current_line)
+            elif not words:
+                lines.append("")
 
         text_surfaces = [font.render(line, True, (255, 255, 255)) for line in lines]
         line_height = font.get_height()

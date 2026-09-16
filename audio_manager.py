@@ -13,6 +13,7 @@ class AudioManager:
     def __init__(self):
         self.enabled = True
         self.current_music = None
+        self.ending_dialogue_channel = None
         try:
             pygame.mixer.init()
         except pygame.error:
@@ -41,3 +42,36 @@ class AudioManager:
         if sound:
             sound.set_volume(volume)
             sound.play()
+
+    def play_ending_music(self, volume=0.5):
+        if not self.enabled:
+            return
+        path = os.path.join(settings.ASSETS_DIR, settings.ENDING_MUSIC_FILE)
+        if not os.path.isfile(path):
+            return
+        try:
+            pygame.mixer.music.load(path)
+            pygame.mixer.music.set_volume(volume)
+            pygame.mixer.music.play(-1)
+            self.current_music = settings.ENDING_MUSIC_FILE
+        except pygame.error:
+            pass
+
+    def play_ending_sfx(self, volume=0.7):
+        if not self.enabled:
+            return
+        path = os.path.join(settings.ASSETS_DIR, settings.ENDING_DIALOGUE_SFX_FILE)
+        if not os.path.isfile(path):
+            return
+        try:
+            sound = pygame.mixer.Sound(path)
+            sound.set_volume(volume)
+            if self.ending_dialogue_channel is None or not self.ending_dialogue_channel.get_busy():
+                self.ending_dialogue_channel = sound.play(loops=-1)
+        except pygame.error:
+            pass
+
+    def stop_ending_sfx(self):
+        if self.ending_dialogue_channel is not None:
+            self.ending_dialogue_channel.stop()
+            self.ending_dialogue_channel = None

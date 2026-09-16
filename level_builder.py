@@ -287,14 +287,14 @@ def build_level(assets):
     add_fire_spot(effects, knife_start + 80, ground_y - 40)
     add_fire_spot(effects, knife_start + 220, ground_y - 40)
     add_knife(enemies, knife_start + 150, knife_start + 30, cursor - 30, assets, speed=2.4)
-    add_checkpoint(checkpoints, cursor - 80, "Ya casi llegamos al final.")
+    add_checkpoint(checkpoints, cursor - 80, "JAJAJA, eso si fue intenso, pero lo paasaste, ahora, ten cuidado, el chef está molesto porque se comieron su ramen y ahora está buscando tomates para una salsa, ¡no dejes que te atrape!.")
     estufa_end = cursor
 
     # =====================================================
     # ZONA 6: JEFE — EL GRAN CHEF
     # =====================================================
     jefe_start = cursor
-    story_messages.append(StoryMessage(jefe_start + 20, "JAJAJA, eso si fue intenso, pero lo paasaste, ahora, ten cuidado, el chef está molesto porque se comieron su ramen y ahora está buscando tomates para una salsa, ¡no dejes que te atrape!"))
+    story_messages.append(StoryMessage(jefe_start + 20, "¡¡¡¡¡¡¡no te dejes del jefe!!!!!!!!"))
 
     arena_length = 520
     cursor = add_boss_arena_ground(platforms, cursor, arena_length)
@@ -304,7 +304,8 @@ def build_level(assets):
 
     boss = create_boss(jefe_start + arena_length // 2, jefe_start + 40, cursor - 40, assets)
 
-    goal = Platform(cursor + 80, ground_y - 60, 40, 60, "goal")
+    goal_x = 140 if settings.DEBUG_ENDING_AT_START else cursor + 80
+    goal = Platform(goal_x, ground_y - 60, 40, 60, "goal")
     level_width = cursor + 300
 
     zones = [

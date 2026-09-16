@@ -22,13 +22,15 @@ WINDOW_WIDTH = int(SCREEN_WIDTH * RENDER_SCALE)
 WINDOW_HEIGHT = int(SCREEN_HEIGHT * RENDER_SCALE)
 FPS = 50
 TITLE = "Aventura de Tomate"
+# Temporalmente acerca la meta para probar la escena final desde el inicio.
+DEBUG_ENDING_AT_START = True
 
 # ------------------------------------------------------------
 # FISICA
 # ------------------------------------------------------------
 GRAVITY = 0.7
-JUMP_FORCE = -26
-MOVE_SPEED = 10
+JUMP_FORCE = -30
+MOVE_SPEED = 15
 FRICTION = 0.82
 MAX_FALL_SPEED = 16
 
@@ -118,6 +120,8 @@ MUSIC_FILES = {
     "estufa": "estufa.mp3",
     "jefe": "jefe.mp3",
 }
+ENDING_MUSIC_FILE = os.path.join("ending", "music", "ending_theme.ogg")
+ENDING_DIALOGUE_SFX_FILE = os.path.join("audio", "sfx", "checkpoint.mp3")
 SFX_FILES = {
     "saltar": "saltar.wav",
     "morir": "morir.wav",

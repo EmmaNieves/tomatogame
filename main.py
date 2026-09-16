@@ -14,6 +14,7 @@ from background import Background
 from platform_obj import MovingPlatform
 from start_screen import run_start_screen
 from effects import MemoryFrame
+from ending_scene import run_ending_scene
 
 
 def current_zone(zones, x):
@@ -169,10 +170,20 @@ def main():
             message_manager.update(player.rect.x)
             camera.update(player.rect)
 
-            boss_done = boss is None or boss.defeated
+            boss_done = settings.DEBUG_ENDING_AT_START or boss is None or boss.defeated
             if boss_done and player.rect.colliderect(level["goal"].rect):
                 if not game_won:
                     audio.play_sfx(settings.SFX_FILES["final"], assets)
+                    run_ending_scene(
+                        screen,
+                        clock,
+                        assets,
+                        audio,
+                        player,
+                        font,
+                        font_checkpoint,
+                    )
+                    running = False
                 game_won = True
 
         for item in level["collectibles"]:
