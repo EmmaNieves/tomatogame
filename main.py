@@ -119,7 +119,7 @@ def main():
                     item.collected = True
                     collected_count += 1
                     audio.play_sfx(settings.SFX_FILES["recoger"], assets)
-                    image_index = len(memory_frames) + 1
+                    image_index = collected_count
                     x = 30 + (image_index * 97) % (settings.SCREEN_WIDTH - 200)
                     y = 20 + (image_index * 61) % (settings.SCREEN_HEIGHT - 180)
                     memory_frames.append(
