@@ -1,19 +1,93 @@
+import os
 import math
 import pygame
 
 import settings
 
+# Extensiones que se prueban, en este orden, al buscar una foto por zona.
+PHOTO_EXTENSIONS = (".jpg", ".jpeg", ".png")
+
 
 class Background:
     """
-    Fondo del nivel. Cambia segun la zona en la que esta el jugador:
-    zonas exteriores (huerto/cultivo/peligro/casa) usan un cielo con
-    gradiente y capas de paralaje; zonas interiores (cocina/estufa/jefe)
-    dibujan una pared de interior con paneles a distinta profundidad.
+    Fondo del nivel. Cambia segun la zona en la que esta el jugador.
+
+    Si existe una foto en assets/images/backgrounds/<zona>.jpg (o .png),
+    esa foto se usa como fondo completo de la zona, con un parallax leve.
+    Si no existe, se usa el fondo dibujado de siempre: zonas exteriores
+    (huerto/cultivo/peligro/casa) con cielo en gradiente y capas de
+    paralaje; zonas interiores (cocina/estufa/jefe) con pared e interior.
     """
 
     def __init__(self):
         self._sky_cache = {}
+        self._photo_cache = {}
+
+    def _get_photo(self, zone):
+        """
+        Carga y escala la foto de la zona una sola vez, la guarda en
+        cache. Si no hay foto, guarda None para no volver a buscar en
+        disco en cada cuadro. Devuelve (superficie, ancho) o None.
+        """
+        if zone in self._photo_cache:
+            return self._photo_cache[zone]
+
+        photo_dir = os.path.join(settings.IMAGES_DIR, "backgrounds")
+        path = None
+        for ext in PHOTO_EXTENSIONS:
+            candidate = os.path.join(photo_dir, zone + ext)
+            if os.path.isfile(candidate):
+                path = candidate
+                break
+
+        if path is None:
+            self._photo_cache[zone] = None
+            return None
+
+        try:
+            img = pygame.image.load(path).convert()
+        except pygame.error:
+            self._photo_cache[zone] = None
+            return None
+
+        # Se escala por altura, para que la foto llene el alto de la
+        # pantalla sin deformarse. El ancho queda proporcional, y puede
+        # ser mayor que la pantalla: eso permite el efecto de paralaje.
+        scale = settings.SCREEN_HEIGHT / img.get_height()
+        new_w = max(int(img.get_width() * scale), settings.SCREEN_WIDTH)
+        scaled = pygame.transform.smoothscale(img, (new_w, settings.SCREEN_HEIGHT))
+        flipped = pygame.transform.flip(scaled, True, False)
+
+        result = {"normal": scaled, "flipped": flipped, "width": new_w}
+        self._photo_cache[zone] = result
+        return result
+
+    def _draw_photo(self, surface, offset_x, photo, zone_length=None):
+        """
+        Repite la foto en mosaico horizontal, alternando normal y
+        volteada, para que la union entre copias no se note tanto.
+
+        El factor de paralaje se ajusta segun el largo de la zona:
+        si la zona es corta, la foto casi no se mueve y nunca llega
+        a repetirse. Si la zona es muy larga, se limita a un maximo
+        (BASE_FACTOR) para que igual se sienta profundidad.
+        """
+        width = photo["width"]
+        base_factor = 0.3
+
+        if zone_length and zone_length > 0:
+            factor = min(base_factor, width / zone_length)
+        else:
+            factor = base_factor
+
+        world = offset_x * factor
+        start_i = int(world // width) - 1
+        count = settings.SCREEN_WIDTH // width + 3
+
+        for i in range(start_i, start_i + count):
+            x = i * width - world
+            tile = photo["normal"] if i % 2 == 0 else photo["flipped"]
+            surface.blit(tile, (x, 0))
 
     def _get_sky(self, zone):
         if zone not in self._sky_cache:
@@ -33,7 +107,12 @@ class Background:
             pygame.draw.line(surf, color, (0, y), (w, y))
         return surf
 
-    def draw(self, surface, camera, zone="huerto"):
+    def draw(self, surface, camera, zone="huerto", zone_length=None):
+        photo = self._get_photo(zone)
+        if photo is not None:
+            self._draw_photo(surface, camera.offset_x, photo, zone_length)
+            return
+
         if zone in settings.ZONE_INTERIOR:
             self._draw_interior(surface, camera, zone)
         else:

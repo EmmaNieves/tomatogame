@@ -55,6 +55,10 @@ def main():
     moving_platforms = [p for p in level["platforms"] if isinstance(p, MovingPlatform)]
     memory_frames = []
 
+    # Largo de cada zona, para que el fondo con foto ajuste su
+    # velocidad de paralaje y nunca se repita dentro de la misma zona.
+    zone_lengths = {z["name"]: z["end"] - z["start"] for z in level["zones"]}
+
     current_music_key = None
 
     def kill_player():
@@ -173,7 +177,7 @@ def main():
             audio.play_music(settings.MUSIC_FILES[zone_name])
             current_music_key = zone_name
 
-        background.draw(game_surface, camera, zone_name)
+        background.draw(game_surface, camera, zone_name, zone_lengths.get(zone_name))
 
         for deco in level["decorations"]:
             deco.draw(game_surface, camera)

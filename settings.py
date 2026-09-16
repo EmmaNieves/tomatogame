@@ -27,8 +27,8 @@ TITLE = "Aventura de Tomate"
 # FISICA
 # ------------------------------------------------------------
 GRAVITY = 0.7
-JUMP_FORCE = -14
-MOVE_SPEED = 4
+JUMP_FORCE = -20
+MOVE_SPEED = 6
 FRICTION = 0.82
 MAX_FALL_SPEED = 16
 
