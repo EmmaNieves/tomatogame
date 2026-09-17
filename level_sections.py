@@ -298,6 +298,10 @@ def add_pan(enemies, x, patrol_min, patrol_max, assets, speed=1.6):
     enemies.append(Enemy(x, GROUND_Y - 20, 26, 18, patrol_min, patrol_max, speed, assets, "sarten"))
 
 
+def add_pan_on_platform(enemies, x, platform_y, patrol_min, patrol_max, assets, speed=1.2):
+    enemies.append(Enemy(x, platform_y - 18, 26, 18, patrol_min, patrol_max, speed, assets, "sarten"))
+
+
 def add_ketchup(enemies, x, patrol_min, patrol_max, assets, speed=1.0):
     enemies.append(Enemy(x, GROUND_Y - 28, 20, 28, patrol_min, patrol_max, speed, assets, "botella_ketchup"))
 

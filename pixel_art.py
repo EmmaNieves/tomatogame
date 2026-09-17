@@ -519,39 +519,38 @@ _SEED_FRAME_CACHE = {}
 # JUGADOR: personaje pequeno con un tomate sobre la cabeza
 # =============================================================
 _PLAYER_PALETTE = {
-    "s": (255, 219, 172),   # piel
-    "h": (120, 72, 40),     # pelo
-    "o": (86, 60, 158),     # overol
-    "O": (66, 44, 128),     # overol sombra
-    "b": (58, 40, 26),      # botas
     "t": (211, 47, 47),     # tomate
-    "T": (235, 90, 80),     # brillo tomate
+    "T": (245, 85, 70),     # brillo tomate
     "l": (67, 145, 60),     # hoja tomate
+    "e": (25, 25, 25),      # ojos
+    "s": (255, 219, 172),   # piel
+    "o": (86, 60, 158),     # overol
+    "b": (58, 40, 26),      # botas
 }
 _PLAYER_FRAMES = [
     [
-        "..lTl...",
-        ".tttt...",
-        ".tTtt...",
-        "..hh....",
-        ".sssss..",
-        ".ssss...",
-        "oOOoo...",
-        "oOOOo...",
-        ".b..b...",
-        "bb..bb..",
+        "...lll...",
+        "..tTTt...",
+        ".tTTTTt..",
+        ".tetettt.",
+        ".tttttt..",
+        "..ssss...",
+        ".oooooo..",
+        ".oooooo..",
+        "..oo.oo..",
+        ".bb...bb.",
     ],
     [
-        "..lTl...",
-        ".tttt...",
-        ".tTtt...",
-        "..hh....",
-        ".sssss..",
-        ".ssss...",
-        "oOOoo...",
-        "oOOOo...",
-        "b..b....",
-        "bb..bb..",
+        "...lll...",
+        "..tTTt...",
+        ".tTTTTt..",
+        ".tetettt.",
+        ".tttttt..",
+        "..ssss...",
+        ".oooooo..",
+        ".oooooo..",
+        ".oo..oo..",
+        "bb....bb.",
     ],
 ]
 _PLAYER_FRAME_CACHE = {}

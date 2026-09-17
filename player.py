@@ -61,6 +61,6 @@ class Player:
     def draw(self, surface, camera):
         x, y = camera.apply(self.rect)
         image = self.frames[self.frame_index]
-        if self.facing == -1:
+        if self.facing == 1:
             image = pygame.transform.flip(image, True, False)
         surface.blit(image, (x, y))

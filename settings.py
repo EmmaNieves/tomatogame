@@ -20,17 +20,17 @@ SCREEN_HEIGHT = 540
 RENDER_SCALE = 1.5
 WINDOW_WIDTH = int(SCREEN_WIDTH * RENDER_SCALE)
 WINDOW_HEIGHT = int(SCREEN_HEIGHT * RENDER_SCALE)
-FPS = 50
-TITLE = "Aventura de Tomate"
+FPS = 40
+TITLE = "TOMÁte Salvajes"
 # Temporalmente acerca la meta para probar la escena final desde el inicio.
-DEBUG_ENDING_AT_START = True
+DEBUG_ENDING_AT_START = False
 
 # ------------------------------------------------------------
 # FISICA
 # ------------------------------------------------------------
 GRAVITY = 0.7
-JUMP_FORCE = -30
-MOVE_SPEED = 15
+JUMP_FORCE = -14
+MOVE_SPEED = 3.5
 FRICTION = 0.82
 MAX_FALL_SPEED = 16
 
@@ -101,6 +101,8 @@ BOSS_SIZE = (76, 96)
 BOSS_HEALTH = 5
 BOSS_SPEED = 1.6
 BOSS_THROW_COOLDOWN = 90
+BOSS_DETECTION_RANGE = 520
+BOSS_HIT_COOLDOWN = 35
 PROJECTILE_SIZE = (22, 22)
 PROJECTILE_SPEED = 6
 
@@ -120,7 +122,7 @@ MUSIC_FILES = {
     "estufa": "estufa.mp3",
     "jefe": "jefe.mp3",
 }
-ENDING_MUSIC_FILE = os.path.join("ending", "music", "ending_theme.ogg")
+ENDING_MUSIC_FILE = os.path.join("audio", "music", "ending_theme.mp3")
 ENDING_DIALOGUE_SFX_FILE = os.path.join("audio", "sfx", "checkpoint.mp3")
 SFX_FILES = {
     "saltar": "saltar.wav",

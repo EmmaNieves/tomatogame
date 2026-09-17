@@ -34,6 +34,7 @@ from level_sections import (
     add_kitchen_decorations,
     add_knife,
     add_pan,
+    add_pan_on_platform,
     add_ketchup,
     add_toaster,
     add_stove_ground,
@@ -276,9 +277,16 @@ def build_level(assets):
         add_steam_spot(effects, cursor - 300, ground_y - 55)
 
     cursor = add_floating_steps(
-        platforms, collectibles, cursor,
-        steps=5, step_gap=125, height_start=ground_y - 100,
+        platforms, collectibles, cursor - 35,
+        steps=5, step_gap=125, height_start=ground_y - 85,
         height_step=-14, assets=assets, platform_type="stove",
+    )
+    stair_start = cursor - 35
+    stair_middle_x = stair_start + 375
+    stair_middle_y = ground_y - 85 - (3 * 14)
+    add_pan_on_platform(
+        enemies, stair_middle_x + 30, stair_middle_y,
+        stair_middle_x + 10, stair_middle_x + 74, assets,
     )
     story_messages.append(StoryMessage(cursor - 400, "El fuego no nos detuvo nunca."))
 
@@ -286,6 +294,10 @@ def build_level(assets):
     cursor = add_stove_ground(platforms, cursor, 320)
     add_fire_spot(effects, knife_start + 80, ground_y - 40)
     add_fire_spot(effects, knife_start + 220, ground_y - 40)
+    add_pan(
+        enemies, knife_start + 250,
+        knife_start + 20, cursor - 20, assets, speed=2.2,
+    )
     add_knife(enemies, knife_start + 150, knife_start + 30, cursor - 30, assets, speed=2.4)
     add_checkpoint(checkpoints, cursor - 80, "JAJAJA, eso si fue intenso, pero lo paasaste, ahora, ten cuidado, el chef está molesto porque se comieron su ramen y ahora está buscando tomates para una salsa, ¡no dejes que te atrape!.")
     estufa_end = cursor
@@ -294,9 +306,9 @@ def build_level(assets):
     # ZONA 6: JEFE — EL GRAN CHEF
     # =====================================================
     jefe_start = cursor
-    story_messages.append(StoryMessage(jefe_start + 20, "¡¡¡¡¡¡¡no te dejes del jefe!!!!!!!!"))
+    story_messages.append(StoryMessage(jefe_start + 20, "¡¡¡¡¡¡¡SÍ CHEF!!!!!!!!"))
 
-    arena_length = 520
+    arena_length = 680
     cursor = add_boss_arena_ground(platforms, cursor, arena_length)
     add_boss_arena_decorations(decorations, jefe_start, arena_length)
     add_fire_spot(effects, jefe_start + 40, ground_y - 40)

@@ -42,6 +42,7 @@ class Boss:
         self.max_health = settings.BOSS_HEALTH
         self.defeated = False
         self.hit_flash = 0
+        self.hit_cooldown = 0
         self.throw_timer = settings.BOSS_THROW_COOLDOWN
 
         self.frames = pixel_art.get_boss_frames(w, h)
@@ -67,11 +68,19 @@ class Boss:
 
         if self.hit_flash > 0:
             self.hit_flash -= 1
+        if self.hit_cooldown > 0:
+            self.hit_cooldown -= 1
 
+        player_dx = player_rect.centerx - self.rect.centerx
+        player_dy = abs(player_rect.centery - self.rect.centery)
+        player_detected = (
+            abs(player_dx) <= settings.BOSS_DETECTION_RANGE
+            and player_dy <= settings.SCREEN_HEIGHT // 2
+        )
         self.throw_timer -= 1
-        if self.throw_timer <= 0:
+        if player_detected and self.throw_timer <= 0:
             self.throw_timer = settings.BOSS_THROW_COOLDOWN
-            direction = 1 if player_rect.centerx > self.rect.centerx else -1
+            direction = 1 if player_dx >= 0 else -1
             self.projectiles.append(
                 Projectile(self.rect.centerx, self.rect.centery, direction)
             )
@@ -81,10 +90,25 @@ class Boss:
         self.projectiles = [p for p in self.projectiles if p.alive]
 
     def take_hit(self):
+        if self.hit_cooldown > 0:
+            return False
         self.health -= 1
         self.hit_flash = 12
+        self.hit_cooldown = settings.BOSS_HIT_COOLDOWN
         if self.health <= 0:
             self.defeated = True
+        return True
+
+    def can_take_hit(self):
+        return self.hit_cooldown <= 0 and not self.defeated
+
+    def reset_after_player_death(self):
+        self.health = self.max_health
+        self.defeated = False
+        self.hit_flash = 0
+        self.hit_cooldown = 0
+        self.throw_timer = settings.BOSS_THROW_COOLDOWN
+        self.projectiles.clear()
 
     def draw(self, surface, camera):
         if self.defeated:

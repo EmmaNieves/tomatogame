@@ -65,6 +65,8 @@ def main():
 
     def kill_player():
         player.respawn()
+        if boss is not None:
+            boss.reset_after_player_death()
         audio.play_sfx(settings.SFX_FILES["morir"], assets)
 
     collected_count = 0
@@ -156,9 +158,11 @@ def main():
                 if player.rect.colliderect(boss.rect):
                     prev_bottom = player.rect.bottom - player.vel_y
                     if prev_vel_y >= 0 and prev_bottom <= boss.rect.top + 10:
-                        boss.take_hit()
-                        player.vel_y = settings.JUMP_FORCE * 0.6
-                        audio.play_sfx(settings.SFX_FILES["golpe_jefe"], assets)
+                        if boss.can_take_hit():
+                            boss.take_hit()
+                            player.vel_y = settings.JUMP_FORCE * 0.75
+                            player.vel_x = -10 if player.rect.centerx < boss.rect.centerx else 10
+                            audio.play_sfx(settings.SFX_FILES["golpe_jefe"], assets)
                     else:
                         kill_player()
 
